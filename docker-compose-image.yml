@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  imap:
+    image: geriapp/imap-devel:1.2
+    container_name: imap
+    ports:
+    - "25:25"
+    - "143:143"
+    - "993:993"
+    environment:
+    - MAILNAME=mail.dev
+    #Default user:debug@mail.dev | password: debug
+
+  rainloop:
+    image: geriapp/rainloop
+    container_name: rainloop
+    volumes:
+      - ./rainloop/configs/application.ini:/rainloop/data/_data_/_default_/configs/application.ini
+      - ./rainloop/domains/mail.dev.ini:/rainloop/data/_data_/_default_/domains/mail.dev.ini
+      - ./data/rainloop:/rainloop/data
+    ports:
+      - "8888:8888"
